@@ -465,6 +465,17 @@ const SCALE_F = {
   1: 'Sin experiencia previa, primer contacto con el fútbol'
 };
 
+// ══ DATA HELPERS ══
+// Los ids pueden venir del Sheet como número y del DOM como texto
+function sameId(a, b) { return String(a) === String(b); }
+// El Sheet puede tener "masculino"/"femenino" además de "M"/"F"
+function normGenero(g) {
+  const v = String(g||'').trim().toUpperCase();
+  if (v.startsWith('F')) return 'F';
+  if (v.startsWith('M')) return 'M';
+  return v;
+}
+
 // ══ STAR HELPERS ══
 function starsToRating(stars) { return stars * 2; }
 function ratingToStars(rating) { return Math.min(5, Math.max(1, Math.round(parseFloat(rating) / 2))); }
@@ -542,7 +553,7 @@ function setSyncStatus(s) {
 async function reloadData() {
   try {
     const data = await api('getAll');
-    players  = (data.players||[]).map(p => ({ ...p, rating: parseFloat(p.rating)||6 }));
+    players  = (data.players||[]).map(p => ({ ...p, genero: normGenero(p.genero), rating: parseFloat(p.rating)||6 }));
     partidos = (data.partidos||[]).sort((a,b) => String(b.fecha).localeCompare(String(a.fecha)));
     renderRoster();
   } catch(e) {}
@@ -707,14 +718,14 @@ function renderMatchStep() {
 
 function updateMatch(i,playerId) {
   matchResults[i].confirmedId=playerId;
-  matchResults[i].player=players.find(p=>p.id===playerId)||null;
+  matchResults[i].player=players.find(p=>sameId(p.id,playerId))||null;
   const row=document.getElementById('mrow-'+i);
   if(row){row.className='mrow '+(playerId?'ok':'err');row.querySelector('.mrow-status').textContent=playerId?'✓':'✗';}
 }
 
 async function saveAlias(i) {
   const r=matchResults[i]; if(!r||!r.player) return;
-  const p=players.find(x=>x.id===r.player.id); if(!p) return;
+  const p=players.find(x=>sameId(x.id,r.player.id)); if(!p) return;
   const existing=(p.aliases||'').split(',').map(a=>a.trim()).filter(Boolean);
   if(!existing.includes(r.originalName)) existing.push(r.originalName);
   p.aliases=existing.join(', ');
@@ -739,7 +750,7 @@ function generarDesdeMatch() {
     const pid=r.confirmedId||r.player?.id;
     if(!pid) return null;
     if(pid==='GUEST') return{id:'guest_'+r.number,nombre:r.originalName,originalName:r.originalName,number:r.number,genero:'M',rating:6,isGuest:true};
-    const p=players.find(x=>x.id===pid);
+    const p=players.find(x=>sameId(x.id,pid));
     return p?{...p,originalName:r.originalName,number:r.number}:null;
   }).filter(Boolean);
   if(confirmed.length<matchResults.length){
@@ -913,16 +924,21 @@ function renderRoster() {
 
 async function deletePlayer(id) {
   if(!confirm('¿Eliminar este jugador?')) return;
-  await api('deletePlayer',{id});players=players.filter(p=>p.id!==id);renderRoster();
+  await api('deletePlayer',{id});players=players.filter(p=>!sameId(p.id,id));renderRoster();
 }
 
 function editPlayer(id) {
-  const p=players.find(x=>x.id===id);if(!p)return;
+  const p=players.find(x=>sameId(x.id,id));if(!p)return;
   document.getElementById('edit-id').value=id;
   document.getElementById('edit-nombre').value=p.nombre;
   document.getElementById('edit-genero').value=p.genero;
   document.getElementById('edit-edad').value=p.edad;
-  document.getElementById('edit-posicion').value=p.posicion;
+  const posSel=document.getElementById('edit-posicion');
+  posSel.querySelectorAll('option[data-custom]').forEach(o=>o.remove());
+  if(p.posicion&&![...posSel.options].some(o=>o.value===p.posicion)){
+    const o=new Option(p.posicion,p.posicion);o.dataset.custom='1';posSel.add(o);
+  }
+  posSel.value=p.posicion||'JC';
   document.getElementById('edit-aliases').value=p.aliases||'';
   const stars=ratingToStars(p.rating);
   editStarVal=stars;
@@ -935,7 +951,7 @@ function editPlayer(id) {
 
 async function saveEdit() {
   const id=document.getElementById('edit-id').value;
-  const p=players.find(x=>x.id===id);if(!p)return;
+  const p=players.find(x=>sameId(x.id,id));if(!p)return;
   p.nombre=document.getElementById('edit-nombre').value.trim()||p.nombre;
   p.genero=document.getElementById('edit-genero').value;
   p.edad=parseInt(document.getElementById('edit-edad').value)||p.edad;
@@ -1015,7 +1031,7 @@ function renderHistorial() {
 async function deletePartido(id) {
   if(!confirm('¿Eliminar este partido?')) return;
   await api('deletePartido',{id});
-  partidos=partidos.filter(p=>p.id!==id);
+  partidos=partidos.filter(p=>!sameId(p.id,id));
   renderHistorial();renderRoster();
 }
 
