@@ -63,14 +63,8 @@
   .guide-title{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:0.5rem;}
   .guide-row{display:flex;align-items:flex-start;gap:0.75rem;padding:0.35rem 0;border-bottom:1px solid var(--border);font-size:0.75rem;}
   .guide-row:last-child{border-bottom:none;}
-  .guide-stars{font-size:0.8rem;flex-shrink:0;width:75px;}
+  .guide-level{font-size:0.75rem;flex-shrink:0;width:90px;color:var(--amber);}
   .guide-desc{color:var(--text2);line-height:1.4;}
-
-  /* ── 5 ESTRELLAS ── */
-  .star-row{display:flex;gap:4px;}
-  .star{font-size:22px;cursor:pointer;color:var(--border2);transition:color 0.1s;line-height:1;user-select:none;}
-  .star.filled{color:var(--amber);}
-  .star-hint{font-size:0.7rem;color:var(--text3);margin-top:0.3rem;}
 
   /* ROSTER */
   .player-item{display:flex;align-items:center;gap:0.55rem;padding:0.58rem 0.85rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg3);margin-bottom:0.4rem;}
@@ -79,8 +73,8 @@
   .avatar-f{background:rgba(255,110,180,0.12);color:var(--pink);}
   .p-info{flex:1;min-width:0;}
   .p-name{font-size:0.84rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .p-meta{font-size:0.64rem;color:var(--text2);}
-  .p-score{font-size:0.82rem;color:var(--amber);min-width:60px;text-align:right;flex-shrink:0;}
+  .p-meta{font-size:0.64rem;color:var(--text2);overflow-wrap:anywhere;}
+  .p-score{font-size:0.82rem;color:var(--amber);min-width:30px;text-align:right;flex-shrink:0;}
   .p-actions{display:flex;gap:0.32rem;flex-shrink:0;}
   .badge{font-size:0.58rem;padding:0.15rem 0.4rem;border-radius:3px;font-weight:700;text-transform:uppercase;}
   .badge-f{background:rgba(255,110,180,0.12);color:var(--pink);}
@@ -127,7 +121,7 @@
   .team-pts{font-size:1.3rem;font-weight:700;}
   .team-negro .team-pts{color:var(--negro);}
   .team-blanco .team-pts{color:var(--blanco);}
-  .team-player{display:flex;justify-content:space-between;align-items:center;padding:0.36rem 0;border-bottom:1px solid var(--border);font-size:0.74rem;}
+  .team-player{display:flex;justify-content:space-between;align-items:center;gap:0.6rem;flex-wrap:wrap;padding:0.36rem 0;border-bottom:1px solid var(--border);font-size:0.74rem;}
   .team-player:last-child{border-bottom:none;}
   .wa-preview{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.85rem 1rem;font-size:0.78rem;line-height:1.75;white-space:pre-wrap;color:var(--text2);word-break:break-word;}
   .balance-bar{height:5px;border-radius:3px;background:var(--border);margin:0.9rem 0 0.35rem;overflow:hidden;}
@@ -249,65 +243,20 @@
 
   <!-- GUÍA DESPLEGABLE -->
   <div class="guide-panel">
-    <button class="guide-toggle" onclick="toggleGuide()">
-      ℹ️ Guía de rating — <span id="guide-gender-label">seleccioná un género para ver la escala</span>
+    <button class="guide-toggle" onclick="toggleGuide()" aria-expanded="false" aria-controls="guide-content" id="guide-toggle">
+      ℹ️ Guía de calificación
       <span id="guide-arrow">▼</span>
     </button>
     <div class="guide-content" id="guide-content">
-
-      <!-- Masculina -->
-      <div id="guide-m" style="display:none">
-        <p class="guide-title">⚽ Escala masculina</p>
-        <div class="guide-row">
-          <span class="guide-stars">⭐⭐⭐⭐⭐</span>
-          <span class="guide-desc">Jugó en liga, provoca desbalance notable y evidente</span>
-        </div>
-        <div class="guide-row">
-          <span class="guide-stars">⭐⭐⭐⭐</span>
-          <span class="guide-desc">Años de experiencia, técnica y performance consistente</span>
-        </div>
-        <div class="guide-row">
-          <span class="guide-stars">⭐⭐⭐</span>
-          <span class="guide-desc">Nivel promedio del grupo, juega pero no destaca</span>
-        </div>
-        <div class="guide-row">
-          <span class="guide-stars">⭐⭐</span>
-          <span class="guide-desc">Poca experiencia o continuidad</span>
-        </div>
-        <div class="guide-row">
-          <span class="guide-stars">⭐</span>
-          <span class="guide-desc">Recién comenzando, sin técnica, control ni condición física</span>
-        </div>
-      </div>
-
-      <!-- Femenina -->
-      <div id="guide-f" style="display:none">
-        <p class="guide-title">⚽ Escala femenina</p>
-        <div class="guide-row">
-          <span class="guide-stars">⭐⭐⭐⭐⭐</span>
-          <span class="guide-desc">Excepcionalmente buena técnica, talento raro y poco común</span>
-        </div>
-        <div class="guide-row">
-          <span class="guide-stars">⭐⭐⭐⭐</span>
-          <span class="guide-desc">Buena técnica, aporta consistentemente</span>
-        </div>
-        <div class="guide-row">
-          <span class="guide-stars">⭐⭐⭐</span>
-          <span class="guide-desc">Nivel promedio del grupo</span>
-        </div>
-        <div class="guide-row">
-          <span class="guide-stars">⭐⭐</span>
-          <span class="guide-desc">Tiene presencia en cancha pero le falta consistencia técnica</span>
-        </div>
-        <div class="guide-row">
-          <span class="guide-stars">⭐</span>
-          <span class="guide-desc">Sin experiencia previa, primer contacto con el fútbol</span>
-        </div>
-      </div>
-
-      <div id="guide-empty" style="font-size:0.74rem;color:var(--text3);padding:0.5rem 0">
-        Seleccioná el género del jugador para ver la escala correspondiente.
-      </div>
+      <p class="guide-title">Estado o potencia física</p>
+      <div class="guide-row"><span class="guide-level">Baja</span><span class="guide-desc">Poca resistencia o potencia; necesita pausas frecuentes.</span></div>
+      <div class="guide-row"><span class="guide-level">Intermedia</span><span class="guide-desc">Mantiene el ritmo habitual del partido con esfuerzo moderado.</span></div>
+      <div class="guide-row"><span class="guide-level">Alta</span><span class="guide-desc">Buena resistencia y potencia; sostiene esfuerzos intensos.</span></div>
+      <p class="guide-title" style="margin-top:0.75rem">Habilidad con el balón</p>
+      <div class="guide-row"><span class="guide-level">Baja</span><span class="guide-desc">Está desarrollando el control, los pases y la conducción.</span></div>
+      <div class="guide-row"><span class="guide-level">Intermedia</span><span class="guide-desc">Controla y pasa el balón con regularidad.</span></div>
+      <div class="guide-row"><span class="guide-level">Alta</span><span class="guide-desc">Buen dominio del balón, precisión y técnica bajo presión.</span></div>
+      <p style="font-size:0.7rem;color:var(--text2);margin-top:0.75rem">Evaluá ambas variables por separado. La misma escala se aplica a todos los jugadores.</p>
     </div>
   </div>
 
@@ -316,7 +265,7 @@
     <div class="form-row col3">
       <div><label>Nombre</label><input type="text" id="inp-nombre" placeholder="Ej: Ximena Torres"></div>
       <div><label>Género</label>
-        <select id="inp-genero" onchange="updateGuide()">
+        <select id="inp-genero">
           <option value="">– Seleccionar</option>
           <option value="M">Masculino</option>
           <option value="F">Femenino</option>
@@ -332,16 +281,23 @@
           <option value="AM">Ambas</option>
         </select>
       </div>
-      <div>
-        <label>Nivel</label>
-        <div class="star-row" id="star-container">
-          <span class="star" onclick="setStar(1)">★</span>
-          <span class="star" onclick="setStar(2)">★</span>
-          <span class="star" onclick="setStar(3)">★</span>
-          <span class="star" onclick="setStar(4)">★</span>
-          <span class="star" onclick="setStar(5)">★</span>
-        </div>
-        <p class="star-hint" id="star-hint">⭐⭐⭐ — Nivel promedio del grupo</p>
+    </div>
+    <div class="form-row col2">
+      <div><label for="inp-estado-fisico">Estado o potencia física</label>
+        <select id="inp-estado-fisico" required>
+          <option value="">– Seleccionar nivel</option>
+          <option value="baja">Baja</option>
+          <option value="intermedia">Intermedia</option>
+          <option value="alta">Alta</option>
+        </select>
+      </div>
+      <div><label for="inp-habilidad-balon">Habilidad con el balón</label>
+        <select id="inp-habilidad-balon" required>
+          <option value="">– Seleccionar nivel</option>
+          <option value="baja">Baja</option>
+          <option value="intermedia">Intermedia</option>
+          <option value="alta">Alta</option>
+        </select>
       </div>
     </div>
     <div style="margin-bottom:0.58rem">
@@ -367,6 +323,7 @@
     </div>
   </div>
   <div id="roster-list"></div>
+  <p style="font-size:0.65rem;color:var(--text3);margin:0.75rem 0">El puntaje para equilibrar equipos combina ambas variables por igual y el historial de resultados. Los perfiles pendientes de evaluación usan una base provisional neutra.</p>
 
   <div id="edit-modal" style="display:none" class="card">
     <p class="section-title">Editar jugador</p>
@@ -378,17 +335,23 @@
     </div>
     <div class="form-row col2">
       <div><label>Posición</label><select id="edit-posicion"><option value="JC">Jugador de campo</option><option value="PO">Portero</option><option value="AM">Ambas</option></select></div>
-      <div>
-        <label>Nivel</label>
-        <div class="star-row" id="edit-star-container">
-          <span class="star" onclick="setEditStar(1)">★</span>
-          <span class="star" onclick="setEditStar(2)">★</span>
-          <span class="star" onclick="setEditStar(3)">★</span>
-          <span class="star" onclick="setEditStar(4)">★</span>
-          <span class="star" onclick="setEditStar(5)">★</span>
-        </div>
-        <p class="star-hint" id="edit-star-hint"></p>
-        <input type="hidden" id="edit-rating">
+    </div>
+    <div class="form-row col2">
+      <div><label for="edit-estado-fisico">Estado o potencia física</label>
+        <select id="edit-estado-fisico" required>
+          <option value="">– Seleccionar nivel</option>
+          <option value="baja">Baja</option>
+          <option value="intermedia">Intermedia</option>
+          <option value="alta">Alta</option>
+        </select>
+      </div>
+      <div><label for="edit-habilidad-balon">Habilidad con el balón</label>
+        <select id="edit-habilidad-balon" required>
+          <option value="">– Seleccionar nivel</option>
+          <option value="baja">Baja</option>
+          <option value="intermedia">Intermedia</option>
+          <option value="alta">Alta</option>
+        </select>
       </div>
     </div>
     <div style="margin-bottom:0.58rem">
@@ -396,8 +359,9 @@
       <input type="text" id="edit-aliases">
     </div>
     <div class="gap-row" style="margin-top:0.65rem">
-      <button class="btn primary" onclick="saveEdit()">Guardar</button>
+      <button class="btn primary" id="btn-save-edit" onclick="saveEdit()">Guardar</button>
       <button class="btn" onclick="document.getElementById('edit-modal').style.display='none'">Cancelar</button>
+      <span id="msg-edit" style="font-size:0.74rem" role="status"></span>
     </div>
   </div>
 </div>
@@ -440,8 +404,7 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbxBr-I4eC-47VxKpFAcfm_F
 // ══ STATE ══
 let players  = [];
 let partidos = [];
-let starVal  = 3; // 1-5 estrellas
-let editStarVal = 3;
+let assessmentSchemaVersion = 0;
 let parsedHeader = '';
 let matchResults  = [];
 let lastMatchedPlayers = [];
@@ -449,21 +412,24 @@ let lastTeamA = [], lastTeamB = [];
 let prefillTeams = null;
 let guideOpen = false;
 
-// ══ ESCALAS ══
-const SCALE_M = {
-  5: 'Jugó en liga, provoca desbalance notable y evidente',
-  4: 'Años de experiencia, técnica y performance consistente',
-  3: 'Nivel promedio del grupo, juega pero no destaca',
-  2: 'Poca experiencia o continuidad',
-  1: 'Recién comenzando, sin técnica, control ni condición física'
-};
-const SCALE_F = {
-  5: 'Excepcionalmente buena técnica, talento raro y poco común',
-  4: 'Buena técnica, aporta consistentemente',
-  3: 'Nivel promedio del grupo',
-  2: 'Tiene presencia en cancha pero le falta consistencia técnica',
-  1: 'Sin experiencia previa, primer contacto con el fútbol'
-};
+// ══ CALIFICACIÓN ══
+const LEVEL_LABELS = { baja:'Baja', intermedia:'Intermedia', alta:'Alta' };
+const LEVEL_POINTS = { baja:2, intermedia:6, alta:10 };
+function isLevel(value) { return Object.prototype.hasOwnProperty.call(LEVEL_LABELS, value); }
+function hasAssessment(p) { return isLevel(p.estadoFisico) && isLevel(p.habilidadBalon); }
+function assessmentLabel(p) {
+  if (!hasAssessment(p)) return 'Pendiente de evaluación';
+  return 'Físico: ' + LEVEL_LABELS[p.estadoFisico] + ' · Balón: ' + LEVEL_LABELS[p.habilidadBalon];
+}
+function baseScore(p) {
+  if (!p || !hasAssessment(p)) return 6;
+  return (LEVEL_POINTS[p.estadoFisico] + LEVEL_POINTS[p.habilidadBalon]) / 2;
+}
+function readAssessment(prefix) {
+  const estadoFisico = document.getElementById(prefix + '-estado-fisico').value;
+  const habilidadBalon = document.getElementById(prefix + '-habilidad-balon').value;
+  return isLevel(estadoFisico) && isLevel(habilidadBalon) ? { estadoFisico, habilidadBalon } : null;
+}
 
 // ══ DATA HELPERS ══
 // Los ids pueden venir del Sheet como número y del DOM como texto
@@ -476,52 +442,12 @@ function normGenero(g) {
   return v;
 }
 
-// ══ STAR HELPERS ══
-function starsToRating(stars) { return stars * 2; }
-function ratingToStars(rating) { return Math.min(5, Math.max(1, Math.round(parseFloat(rating) / 2))); }
-function starsLabel(n, genero) {
-  const scale = genero === 'F' ? SCALE_F : SCALE_M;
-  const s = '⭐'.repeat(n);
-  return s + ' — ' + (scale[n] || '');
-}
-
-function setStar(n) {
-  starVal = n;
-  document.querySelectorAll('#star-container .star').forEach((s,i) => s.classList.toggle('filled', i < n));
-  const genero = document.getElementById('inp-genero')?.value || '';
-  document.getElementById('star-hint').textContent = starsLabel(n, genero);
-}
-
-function setEditStar(n) {
-  editStarVal = n;
-  document.getElementById('edit-rating').value = starsToRating(n);
-  document.querySelectorAll('#edit-star-container .star').forEach((s,i) => s.classList.toggle('filled', i < n));
-  const genero = document.getElementById('edit-genero')?.value || '';
-  document.getElementById('edit-star-hint').textContent = starsLabel(n, genero);
-}
-
-setStar(3);
-
 // ══ GUIDE ══
 function toggleGuide() {
   guideOpen = !guideOpen;
   document.getElementById('guide-content').classList.toggle('open', guideOpen);
   document.getElementById('guide-arrow').textContent = guideOpen ? '▲' : '▼';
-  if (guideOpen) updateGuide();
-}
-
-function updateGuide() {
-  const genero = document.getElementById('inp-genero')?.value || '';
-  document.getElementById('guide-m').style.display = genero === 'M' ? 'block' : 'none';
-  document.getElementById('guide-f').style.display = genero === 'F' ? 'block' : 'none';
-  document.getElementById('guide-empty').style.display = genero ? 'none' : 'block';
-  document.getElementById('guide-gender-label').textContent =
-    genero === 'M' ? 'Escala masculina' :
-    genero === 'F' ? 'Escala femenina' :
-    'seleccioná un género para ver la escala';
-  // Update hint
-  const hint = document.getElementById('star-hint');
-  if (hint) hint.textContent = starsLabel(starVal, genero);
+  document.getElementById('guide-toggle').setAttribute('aria-expanded', String(guideOpen));
 }
 
 // ══ API ══
@@ -533,10 +459,15 @@ async function apiFetch(url, action, body) {
     ...(body ? { body: JSON.stringify({ action, ...body }) } : {})
   });
   if (!res.ok) throw new Error('HTTP ' + res.status);
-  return res.json();
+  const result = await res.json();
+  if (result.error || result.ok === false) throw new Error(result.error || 'No se pudo guardar la operación');
+  return result;
 }
 
 async function api(action, body) {
+  if (action === 'savePlayer' && assessmentSchemaVersion !== 1) {
+    throw new Error('Actualizá Google Apps Script y recargá la página antes de guardar jugadores.');
+  }
   setSyncStatus('load');
   try { const r = await apiFetch(null, action, body); setSyncStatus('ok'); return r; }
   catch(e) { setSyncStatus('err'); throw e; }
@@ -553,7 +484,8 @@ function setSyncStatus(s) {
 async function reloadData() {
   try {
     const data = await api('getAll');
-    players  = (data.players||[]).map(p => ({ ...p, genero: normGenero(p.genero), rating: parseFloat(p.rating)||6 }));
+    assessmentSchemaVersion = data.assessmentSchemaVersion || 0;
+    players  = (data.players||[]).map(p => ({ ...p, genero: normGenero(p.genero) }));
     partidos = (data.partidos||[]).sort((a,b) => String(b.fecha).localeCompare(String(a.fecha)));
     renderRoster();
   } catch(e) {}
@@ -572,7 +504,7 @@ function goTo(v, btn) {
 // ══ SCORE ENGINE ══
 function calcScore(p) {
   if (!p || p.isGuest) return 6;
-  const base = parseFloat(p.rating) || 6;
+  const base = baseScore(p);
   const hist = partidos.filter(pa => {
     const s = pa.stats && pa.stats[p.id];
     return s && s.equipo && s.equipo !== '';
@@ -728,12 +660,13 @@ async function saveAlias(i) {
   const p=players.find(x=>sameId(x.id,r.player.id)); if(!p) return;
   const existing=(p.aliases||'').split(',').map(a=>a.trim()).filter(Boolean);
   if(!existing.includes(r.originalName)) existing.push(r.originalName);
-  p.aliases=existing.join(', ');
+  const updated={...p,aliases:existing.join(', ')};
   try {
-    await api('savePlayer',p);
+    await api('savePlayer',updated);
+    Object.assign(p,updated);
     const btn=document.querySelector(`#mrow-${i} .save-alias-btn`);
     if(btn){btn.textContent='✓ Apodo guardado';btn.style.color='var(--green)';btn.disabled=true;}
-  } catch(e){alert('Error al guardar apodo');}
+  } catch(e){alert(e.message || 'Error al guardar apodo');}
 }
 
 function volverAPaste() {
@@ -749,7 +682,7 @@ function generarDesdeMatch() {
   const confirmed=matchResults.map(r=>{
     const pid=r.confirmedId||r.player?.id;
     if(!pid) return null;
-    if(pid==='GUEST') return{id:'guest_'+r.number,nombre:r.originalName,originalName:r.originalName,number:r.number,genero:'M',rating:6,isGuest:true};
+    if(pid==='GUEST') return{id:'guest_'+r.number,nombre:r.originalName,originalName:r.originalName,number:r.number,genero:'M',estadoFisico:'intermedia',habilidadBalon:'intermedia',isGuest:true};
     const p=players.find(x=>sameId(x.id,pid));
     return p?{...p,originalName:r.originalName,number:r.number}:null;
   }).filter(Boolean);
@@ -806,12 +739,12 @@ function renderTeamsStep() {
   const fBl=teamBlanco.filter(p=>p.genero==='F').length;
 
   const renderPlayers=team=>team.map(p=>{
-    const sc=calcScore(p),ws=winStats(p);
-    const stars='⭐'.repeat(ratingToStars(p.rating));
+    const ws=winStats(p);
+    const levels=assessmentLabel(p);
     const lock=(isXime(p)||isBelen(p))?'🔒 ':'';
     return`<div class="team-player">
       <span>${lock}${p.originalName||p.nombre} <span style="font-size:0.58rem;color:${p.genero==='F'?'var(--pink)':'var(--blue)'}">${p.genero}</span></span>
-      <span style="color:var(--text3);font-size:0.68rem">${stars}${ws.pj>0?' · '+ws.pct+'%':''}</span>
+      <span style="color:var(--text3);font-size:0.68rem">${levels}${ws.pj>0?' · '+ws.pct+'%':''}</span>
     </div>`;
   }).join('');
 
@@ -869,11 +802,13 @@ async function addPlayer() {
   if(!nombre){flash('msg-add','⚠ Ingresá un nombre','red');return;}
   const genero=document.getElementById('inp-genero').value;
   if(!genero){flash('msg-add','⚠ Seleccioná el género','red');return;}
+  const assessment=readAssessment('inp');
+  if(!assessment){flash('msg-add','⚠ Seleccioná el estado físico y la habilidad con el balón','red');return;}
   const p={
     id:Date.now().toString(),nombre,genero,
     edad:parseInt(document.getElementById('inp-edad').value)||0,
     posicion:document.getElementById('inp-posicion').value,
-    rating:starsToRating(starVal),
+    ...assessment,
     aliases:document.getElementById('inp-aliases').value.trim()
   };
   setBtnLoad('btn-add',true);
@@ -884,9 +819,10 @@ async function addPlayer() {
     document.getElementById('inp-edad').value='';
     document.getElementById('inp-aliases').value='';
     document.getElementById('inp-genero').value='';
-    setStar(3);updateGuide();
+    document.getElementById('inp-estado-fisico').value='';
+    document.getElementById('inp-habilidad-balon').value='';
     flash('msg-add','✓ '+p.nombre+' agregado','green');
-  } catch(e){flash('msg-add','Error al guardar','red');}
+  } catch(e){flash('msg-add',e.message || 'Error al guardar','red');}
   setBtnLoad('btn-add',false);
 }
 
@@ -900,9 +836,9 @@ function renderRoster() {
   if(!list.length){el.innerHTML='<p class="empty">Sin jugadores aún</p>';return;}
   el.innerHTML=list.map(p=>{
     const score=calcScore(p),ws=winStats(p);
-    const stars='⭐'.repeat(ratingToStars(p.rating));
+    const levels=assessmentLabel(p);
     const aliases=p.aliases?` · apodos: ${p.aliases}`:'';
-    const meta=`${stars} · ${ws.pj} PJ${ws.pj>0?' · '+ws.pct+'% vic.':''}${aliases}`;
+    const meta=`${levels} · ${ws.pj} PJ${ws.pj>0?' · '+ws.pct+'% vic.':''}${aliases}`;
     const lock=(isXime(p)||isBelen(p))?'<span class="badge badge-lock">🔒</span>':'';
     return`<div class="player-item">
       <div class="avatar ${p.genero==='F'?'avatar-f':'avatar-m'}">${initials(p.nombre)}</div>
@@ -913,7 +849,7 @@ function renderRoster() {
       <span class="badge ${p.genero==='F'?'badge-f':'badge-m'}">${p.genero}</span>
       ${p.posicion!=='JC'?`<span class="badge badge-po">${p.posicion}</span>`:''}
       ${lock}
-      <span class="p-score">${'⭐'.repeat(ratingToStars(score))}</span>
+      <span class="p-score">${score.toFixed(1)}</span>
       <div class="p-actions">
         <button class="btn sm" onclick="editPlayer('${p.id}')">Editar</button>
         <button class="btn sm danger" onclick="deletePlayer('${p.id}')">✕</button>
@@ -929,6 +865,7 @@ async function deletePlayer(id) {
 
 function editPlayer(id) {
   const p=players.find(x=>sameId(x.id,id));if(!p)return;
+  document.getElementById('msg-edit').textContent='';
   document.getElementById('edit-id').value=id;
   document.getElementById('edit-nombre').value=p.nombre;
   document.getElementById('edit-genero').value=p.genero;
@@ -940,11 +877,8 @@ function editPlayer(id) {
   }
   posSel.value=p.posicion||'JC';
   document.getElementById('edit-aliases').value=p.aliases||'';
-  const stars=ratingToStars(p.rating);
-  editStarVal=stars;
-  document.getElementById('edit-rating').value=p.rating;
-  document.querySelectorAll('#edit-star-container .star').forEach((s,i)=>s.classList.toggle('filled',i<stars));
-  document.getElementById('edit-star-hint').textContent=starsLabel(stars,p.genero);
+  document.getElementById('edit-estado-fisico').value=isLevel(p.estadoFisico)?p.estadoFisico:'';
+  document.getElementById('edit-habilidad-balon').value=isLevel(p.habilidadBalon)?p.habilidadBalon:'';
   document.getElementById('edit-modal').style.display='block';
   document.getElementById('edit-modal').scrollIntoView({behavior:'smooth'});
 }
@@ -952,14 +886,25 @@ function editPlayer(id) {
 async function saveEdit() {
   const id=document.getElementById('edit-id').value;
   const p=players.find(x=>sameId(x.id,id));if(!p)return;
-  p.nombre=document.getElementById('edit-nombre').value.trim()||p.nombre;
-  p.genero=document.getElementById('edit-genero').value;
-  p.edad=parseInt(document.getElementById('edit-edad').value)||p.edad;
-  p.posicion=document.getElementById('edit-posicion').value;
-  p.rating=starsToRating(editStarVal);
-  p.aliases=document.getElementById('edit-aliases').value.trim();
-  await api('savePlayer',p);renderRoster();
-  document.getElementById('edit-modal').style.display='none';
+  const assessment=readAssessment('edit');
+  if(!assessment){flash('msg-edit','⚠ Seleccioná el estado físico y la habilidad con el balón','red');return;}
+  const updated={
+    ...p,
+    nombre:document.getElementById('edit-nombre').value.trim()||p.nombre,
+    genero:document.getElementById('edit-genero').value,
+    edad:parseInt(document.getElementById('edit-edad').value)||p.edad,
+    posicion:document.getElementById('edit-posicion').value,
+    ...assessment,
+    aliases:document.getElementById('edit-aliases').value.trim()
+  };
+  const btn=document.getElementById('btn-save-edit');
+  btn.disabled=true;
+  try {
+    await api('savePlayer',updated);
+    Object.assign(p,updated);renderRoster();
+    document.getElementById('edit-modal').style.display='none';
+  } catch(e){flash('msg-edit',e.message || 'Error al guardar','red');}
+  finally {btn.disabled=false;}
 }
 
 // ══ PARTIDO ══
@@ -1054,3 +999,4 @@ reloadData();
 </script>
 </body>
 </html>
+
